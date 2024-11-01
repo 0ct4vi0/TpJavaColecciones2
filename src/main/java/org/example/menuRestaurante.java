@@ -51,6 +51,7 @@ public class menuRestaurante {
                 System.out.println("-----------------------");
                 break;
             }
+
             platoMenu.add(plato);
             System.out.println("Desea dejar de ingresar platos ? S/N");
             String salir = sc.nextLine();
