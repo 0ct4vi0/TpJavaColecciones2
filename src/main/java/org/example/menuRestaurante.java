@@ -48,6 +48,7 @@ public class menuRestaurante {
                 System.out.println("\n ------ MENU ------ ");
                 System.out.println(" "+nom);
                 System.out.println(" Precio: $" + pre);
+                System.out.println("-----------------------");
                 break;
             }
             platoMenu.add(plato);
