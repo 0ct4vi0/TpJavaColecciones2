@@ -20,6 +20,7 @@ public class CargaNotas {
 
             Alumno alumno = new Alumno(nombreCompleto, legajo);
 
+
 // inicio del segundo bucle-------------------------------------
             System.out.println("-------------------------------");
             System.out.println("carga de datos");
