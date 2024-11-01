@@ -18,38 +18,39 @@ public class menuRestaurante {
             int pre = sc.nextInt();
             System.out.println("es una bebida? True/False");
             boolean bebida = sc.nextBoolean();
-// ------------paso los datos a la clase plato---------------------
+
+
             Plato plato = new Plato( nom, pre,bebida);
+
 // inicio el bucle si el usuario no ingreso una bebida
             if (!bebida) {
                 System.out.println("ingrese la cantidad de ingredientes que tiene el plato:");
-                int cantidad = sc.nextInt();
-                for (int i = 0; i < cantidad; i++) {
+                int cant = sc.nextInt();
+                for (int i = 0; i < cant; i++) {
                     System.out.println("ingrese el nombre del ingrediente: ");
                     String nomIng = sc.nextLine();
                     sc.nextLine();
                     System.out.print("Ingrese la cantidad: ");
-                    double cant = sc.nextDouble();
+                    double cantidad = sc.nextDouble();
                     System.out.print("Ingrese la unidad de medida: ");
                     String unidadMedida = sc.next();
-                    sc.nextLine();
 
-                    Ingrediente ing = new Ingrediente(nomIng, cant, unidadMedida);
+                    Ingrediente ing = new Ingrediente(nomIng, cantidad, unidadMedida);
                     plato.agregarIngrediente(ing);
                }
+                sc.nextLine();
                 System.out.println("Desea dejar de ingresar ingredientes? S/N");
                 String salir = sc.nextLine();
                 if (salir.equals("S") || salir.equals("s")) {
                     break;
                 }
-                platoMenu.add(plato);
             } else {
                 System.out.println("\n ------ MENU ------ ");
                 System.out.println(" "+nom);
                 System.out.println(" Precio: $" + pre);
                 break;
             }
-
+            platoMenu.add(plato);
             System.out.println("Desea dejar de ingresar platos ? S/N");
             String salir = sc.nextLine();
             System.out.println("-------------------------------");
@@ -57,21 +58,22 @@ public class menuRestaurante {
                 break;
             }
         }
-        System.out.println("\n ------ MENU ------ ");
+//        System.out.println("\n ------ MENU ------ ");
         for (Plato p : platoMenu) {
             System.out.println(p);
         }
     }
 
+//clase ingrediente ----------------------------------------------------
     static class  Ingrediente{
         private String nombre;
         private double cantidad;
-        private  String unidadBebida;
+        private  String unidadMedida;
 
-        public Ingrediente(String nombre,double cantidad,String unidadBebida){
+        public Ingrediente(String nombre,double cantidad,String unidadMedida){
             this.nombre=nombre;
             this.cantidad=cantidad;
-            this.unidadBebida= unidadBebida;
+            this.unidadMedida= unidadMedida;
         }
 
         public String getNombre() {
@@ -82,10 +84,17 @@ public class menuRestaurante {
             return cantidad;
         }
 
-        public String getUnidadMebida() {
-            return unidadBebida;
+        public String getUnidadMedida() {
+            return unidadMedida;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%-nombre %-cantidad %-unidadMedida", nombre, cantidad, unidadMedida);
         }
     }
+
+//clase plato------------------------------------------------------------
     static class  Plato {
         private String nombreCompleto;
         private int precio;
@@ -99,20 +108,40 @@ public class menuRestaurante {
             this.ing = new ArrayList<>();
         }
 
-        public void agregarIngrediente(Ingrediente ingrediente) {
-            ing.add(ingrediente);
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    public boolean getEsBebida() {
+       return esBebida;
+    }
+
+    public int getPrecio() {
+        return precio;
+    }
+
+    public void agregarIngrediente(Ingrediente i) {
+            if (i != null ){
+                this.ing.add(i);
+            }
         }
 
         public String toString() {
-            System.out.println("\n ------ MENU ------ ");
-            System.out.println(""+nombreCompleto);
-            System.out.println("Precio: $"+precio);
-            System.out.println("Ingredientes: ");
-            System.out.println("Nombre      Cantidad     Unidad de Medida");
-            System.out.println();
+                StringBuilder menu = new StringBuilder();
+                System.out.println("\n ------ MENU ------ ");
+                menu.append(String.format("%s\n", nombreCompleto));
+                menu.append(String.format("Precio: $ %d\n", precio));
 
+                if (!esBebida) {
+                    menu.append("Ingredientes:\n");
+                    menu.append(String.format("%-nombre %-cantidad %-unidadMedida\n", "Nombre", "Cantidad", "Unidad de Medida"));
+                    for (Ingrediente ingrediente : ing) {
+                        menu.append(ingrediente.toString()).append("\n");
+                    }
+                }
 
-            return toString();
+                menu.append("----------------------------------\n");
+                return menu.toString();
         }
     }
 }
